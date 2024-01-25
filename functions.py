@@ -118,3 +118,35 @@ def create_repository():
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
+
+# Function to list repositories in a category
+def list_repositories():
+    """
+    List repositories in a selected category.
+    """
+    print("Select a category to list repositories:")
+    list_categories()
+    print()
+
+    while True:
+        category_number = input("Enter category number: ")
+
+        if category_number.isdigit():
+            index = int(category_number) - 1
+            categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
+            if 0 <= index < len(categories):
+                selected_category = categories[index]
+
+                repositories = [f"{user}@{ip_or_hostname}:{os.path.join(selected_category, repo)}" for repo in os.listdir(selected_category) if repo.endswith('.git')]
+
+                if repositories:
+                    print("Repositories in the selected category:")
+                    for repo in repositories:
+                        print(repo)
+                else:
+                    print("No repositories found in the selected category.")
+                break
+            else:
+                print("Invalid category number. Please enter a valid number.")
+        else:
+            print("Invalid input. Please enter a valid number.")
