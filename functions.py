@@ -37,12 +37,15 @@ def create_category():
     """
     Create a category folder based on user input.
     """
-    print("Existing Categories:")
-    list_categories()
-    print()
-
     while True:
-        category_name = input("Enter the name of the project category: ")
+        print("Existing Categories:")
+        list_categories()
+        print()
+
+        category_name = input("Enter the name of the project category (press 'B' to go back): ")
+
+        if category_name.lower() == 'b':
+            break  # Go back to the main menu
 
         # Validate category name
         if "-" not in category_name:
@@ -73,47 +76,54 @@ def create_repository():
     """
     Create a project folder and initialize a bare Git repository based on user input.
     """
-    categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
-    if not categories:
-        print("No categories found. Please create a category first.")
-        return
-
-    print("Select a category to create the project:")
-    list_categories()
-    print()
-
     while True:
-        category_number = input("Enter category number: ")
+        categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
+        if not categories:
+            print("No categories found. Please create a category first.")
+            break  # Go back to the main menu
+
+        print("Select a category to create the project:")
+        list_categories()
+        print()
+
+        category_number = input("Enter category number (press 'B' to go back): ")
+
+        if category_number.lower() == 'b':
+            break  # Go back to the main menu
 
         if category_number.isdigit():
             index = int(category_number) - 1
             if 0 <= index < len(categories):
                 selected_category = categories[index]
 
-                project_name = input("Enter the name of the project: ")
+                while True:
+                    project_name = input("Enter the name of the project (press 'B' to go back): ")
 
-                # Validate project name
-                if "-" not in project_name:
-                    project_name = project_name.lower().replace(" ", "-")
+                    if project_name.lower() == 'b':
+                        break  # Go back to the previous submenu
 
-                    category_name = os.path.basename(selected_category)
-                    project_path = os.path.join(selected_category, f"{project_name}.git")
+                    # Validate project name
+                    if "-" not in project_name:
+                        project_name = project_name.lower().replace(" ", "-")
 
-                    if not os.path.exists(project_path):
-                        os.makedirs(project_path)
-                        print(f"Project folder '{project_name}' created successfully.")
+                        category_name = os.path.basename(selected_category)
+                        project_path = os.path.join(selected_category, f"{project_name}.git")
 
-                        # Initialize a bare Git repository
-                        subprocess.run(["git", "init", "--bare", project_path])
+                        if not os.path.exists(project_path):
+                            os.makedirs(project_path)
+                            print(f"Project folder '{project_name}' created successfully.")
 
-                        # Print repository address on the local network
-                        print(f"Repository address on local network: {user}@{ip_or_hostname}:{project_path}")
+                            # Initialize a bare Git repository
+                            subprocess.run(["git", "init", "--bare", project_path])
 
-                        break
+                            # Print repository address on the local network
+                            print(f"Repository address on local network: {user}@{ip_or_hostname}:{project_path}")
+
+                            break
+                        else:
+                            print(f"Project folder '{project_name}' already exists in the selected category. Choose a different project name.")
                     else:
-                        print(f"Project folder '{project_name}' already exists in the selected category. Choose a different project name.")
-                else:
-                    print("Invalid project name. Please avoid using hyphens.")
+                        print("Invalid project name. Please avoid using hyphens.")
             else:
                 print("Invalid category number. Please enter a valid number.")
         else:
@@ -124,12 +134,15 @@ def list_repositories():
     """
     List repositories in a selected category.
     """
-    print("Select a category to list repositories:")
-    list_categories()
-    print()
-
     while True:
+        print("Select a category to list repositories (press 'B' to go back):")
+        list_categories()
+        print()
+
         category_number = input("Enter category number: ")
+
+        if category_number.lower() == 'b':
+            break  # Go back to the main menu
 
         if category_number.isdigit():
             index = int(category_number) - 1
@@ -145,9 +158,7 @@ def list_repositories():
                         print(repo)
                 else:
                     print("No repositories found in the selected category.")
-                break
             else:
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
-    print()
