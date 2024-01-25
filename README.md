@@ -68,9 +68,17 @@ cat ~/.ssh/id_rsa.pub | ssh your_username@server_hostname.local 'cat >> ~/.ssh/a
 
 **Note**: Replace `your_username` and `server_hostname.local` with your actual username and server hostname.
 
+## Setting Default Branch
+
+On the server machine, set the default branch name to `main` for new repositories:
+
+```bash
+git config --global init.defaultBranch main
+```
+
 ## Important Notes
 
-- Ensure that the `repo_variables.json` file is correctly filled in with the appropriate values.
+- ``Ensure that the `repo_variables.json` file is correctly filled in with the appropriate values.
 - The program manages repositories in the specified parent folder on the server, allowing users to organize and version control their projects easily.
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
