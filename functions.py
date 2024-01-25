@@ -135,6 +135,7 @@ def list_repositories():
     List repositories in a selected category.
     """
     while True:
+        print()
         print("Select a category to list repositories (press 'B' to go back):")
         list_categories()
         print()
@@ -162,4 +163,3 @@ def list_repositories():
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
-    print()
