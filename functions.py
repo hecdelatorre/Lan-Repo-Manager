@@ -12,12 +12,21 @@ folder_name = ""
 # Function to set up variables
 def set_variables():
     """
-    Set up global variables by loading values from the 'env_variables.json' file.
+    Set up global variables by loading values from the 'repo_variables.json' file.
     """
     global parent_folder, ip_or_hostname, user, folder_name
-    env_file_path = os.path.join(os.path.dirname(__file__), "env_variables.json")
 
-    with open(env_file_path, "r") as env_file:
+    # Locate the 'repo_variables.json' file in the user's home directory
+    home_directory = os.path.expanduser("~")
+    json_file_path = os.path.join(home_directory, "repo_variables.json")
+
+    # Check if the file exists
+    if not os.path.exists(json_file_path):
+        print("Error: 'repo_variables.json' not found in the user's home directory.")
+        # You can handle this situation accordingly, e.g., ask the user to create the file.
+        return
+
+    with open(json_file_path, "r") as env_file:
         env_variables = json.load(env_file)
 
     parent_folder = env_variables.get("PARENT_FOLDER", "")
