@@ -87,7 +87,7 @@ def create_repository():
     print()
 
     while True:
-        category_number = input("Enter category number: ")
+        category_number = input("Enter category number or B: ")
 
         if category_number.isdigit():
             index = int(category_number) - 1
@@ -132,7 +132,7 @@ def list_repositories():
     categories = list_categories(show_number=True)
     print()
 
-    category_number = input("Enter category number: ")
+    category_number = input("Enter category number or B: ")
     if category_number.lower() == "b":
         return
 
@@ -228,7 +228,7 @@ def manage_categories():
     categories = list_categories(show_number=True)
     print()
 
-    category_number = input("Enter category number: ")
+    category_number = input("Enter category number or B: ")
     if category_number.lower() == "b":
         return
 
