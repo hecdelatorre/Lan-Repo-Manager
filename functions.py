@@ -1,7 +1,6 @@
 import os
 import json
 import subprocess
-import shutil
 import glob
 
 # Initialize global variables with default values
@@ -121,7 +120,7 @@ def create_repository():
         else:
             print("Invalid input. Please enter a valid number.")
 
-# Function to list repositories
+# Function to list repositories with URLs
 def list_repositories():
     """
     List repositories in the selected category.
@@ -147,7 +146,9 @@ def list_repositories():
             repositories = [os.path.basename(repo)[:-4] for repo in glob.glob(os.path.join(selected_category, "*.git"))]
             print("\nRepositories in the selected category:")
             for i, repo in enumerate(repositories, start=1):
-                print(f"{i}. {repo}")
+                repo_path = os.path.join(selected_category, f"{repo}.git")
+                repo_url = f"{user}@{ip_or_hostname}:{repo_path}"
+                print(f"{i}. {repo} - {repo_url}")
 
             while True:
                 repository_number = input("Enter repository number (press 'B' to go back): ")
@@ -182,23 +183,44 @@ def list_repositories():
         print("Invalid input. Please enter a valid number.")
 
 # Function to rename a repository
-def rename_repository(category, repository_name):
+def rename_repository(category, old_name):
+    """
+    Rename a repository based on user input.
+    """
+    print(f"Rename Repository '{old_name}' in Category '{category}':")
     new_name = input("Enter the new name for the repository: ")
+
     if "-" not in new_name:
         new_name = new_name.lower().replace(" ", "-")
-        old_path = os.path.join(parent_folder, folder_name, category, f"{repository_name}.git")
+        old_path = os.path.join(parent_folder, folder_name, category, f"{old_name}.git")
         new_path = os.path.join(parent_folder, folder_name, category, f"{new_name}.git")
-        os.rename(old_path, new_path)
-        print(f"Repository '{repository_name}' has been renamed to '{new_name}' successfully.")
+
+        if os.path.exists(old_path):
+            os.rename(old_path, new_path)
+            print(f"Repository '{old_name}' has been renamed to '{new_name}' successfully.")
+        else:
+            print(f"Repository '{old_name}' not found.")
     else:
         print("Invalid repository name. Please avoid using hyphens.")
 
 # Function to delete a repository
-def delete_repository(category, repository_name):
-    confirm = input(f"Are you sure you want to delete the repository '{repository_name}'? (Type 'i-am-sure' to confirm): ")
-    if confirm == "i-am-sure":
-        repository_path = os.path.join(parent_folder, folder_name, category, f"{repository_name}.git")
-        shutil.rmtree(repository_path)
-        print(f"Repository '{repository_name}' has been deleted successfully.")
+def delete_repository(category, repository):
+    """
+    Delete a repository based on user input.
+    """
+    print(f"Delete Repository '{repository}' in Category '{category}':")
+    confirmation = input(f"Type 'i-am-sure' to delete the repository '{repository}' along with its folder: ")
+
+    if confirmation.lower() == "i-am-sure":
+        repo_path = os.path.join(parent_folder, folder_name, category, f"{repository}.git")
+        if os.path.exists(repo_path):
+            import shutil
+            shutil.rmtree(repo_path)
+            print(f"Repository '{repository}' has been deleted successfully.")
+        else:
+            print(f"Repository '{repository}' not found.")
     else:
-        print("Deletion canceled.")
+        print("Deletion aborted.")
+
+# Other functions remain unchanged
+
