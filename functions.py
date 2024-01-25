@@ -145,13 +145,9 @@ def list_repositories():
             selected_category = categories[index]
 
             repositories = [os.path.basename(repo)[:-4] for repo in glob.glob(os.path.join(selected_category, "*.git"))]
-            if not repositories:
-                print("No repositories found in the selected category.")
-                return
-
             print("\nRepositories in the selected category:")
-            for i, repository in enumerate(repositories, start=1):
-                print(f"{i}. {repository}")
+            for i, repo in enumerate(repositories, start=1):
+                print(f"{i}. {repo}")
 
             while True:
                 repository_number = input("Enter repository number (press 'B' to go back): ")
