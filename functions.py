@@ -1,6 +1,8 @@
 import os
 import json
 import subprocess
+import shutil
+import glob
 
 # Initialize global variables with default values
 parent_folder = ""
@@ -37,15 +39,12 @@ def create_category():
     """
     Create a category folder based on user input.
     """
+    print("Existing Categories:")
+    list_categories()
+    print()
+
     while True:
-        print("Existing Categories:")
-        list_categories()
-        print()
-
-        category_name = input("Enter the name of the project category (press 'B' to go back): ")
-
-        if category_name.lower() == 'b':
-            break  # Go back to the main menu
+        category_name = input("Enter the name of the project category: ")
 
         # Validate category name
         if "-" not in category_name:
@@ -76,90 +75,134 @@ def create_repository():
     """
     Create a project folder and initialize a bare Git repository based on user input.
     """
+    categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
+    if not categories:
+        print("No categories found. Please create a category first.")
+        return
+
+    print("Select a category to create the project:")
+    list_categories()
+    print()
+
     while True:
-        categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
-        if not categories:
-            print("No categories found. Please create a category first.")
-            break  # Go back to the main menu
-
-        print("Select a category to create the project:")
-        list_categories()
-        print()
-
-        category_number = input("Enter category number (press 'B' to go back): ")
-
-        if category_number.lower() == 'b':
-            break  # Go back to the main menu
+        category_number = input("Enter category number: ")
 
         if category_number.isdigit():
             index = int(category_number) - 1
             if 0 <= index < len(categories):
                 selected_category = categories[index]
 
-                while True:
-                    project_name = input("Enter the name of the project (press 'B' to go back): ")
+                project_name = input("Enter the name of the project: ")
 
-                    if project_name.lower() == 'b':
-                        break  # Go back to the previous submenu
+                # Validate project name
+                if "-" not in project_name:
+                    project_name = project_name.lower().replace(" ", "-")
 
-                    # Validate project name
-                    if "-" not in project_name:
-                        project_name = project_name.lower().replace(" ", "-")
+                    category_name = os.path.basename(selected_category)
+                    project_path = os.path.join(selected_category, f"{project_name}.git")
 
-                        category_name = os.path.basename(selected_category)
-                        project_path = os.path.join(selected_category, f"{project_name}.git")
+                    if not os.path.exists(project_path):
+                        os.makedirs(project_path)
+                        print(f"Project folder '{project_name}' created successfully.")
 
-                        if not os.path.exists(project_path):
-                            os.makedirs(project_path)
-                            print(f"Project folder '{project_name}' created successfully.")
+                        # Initialize a bare Git repository
+                        subprocess.run(["git", "init", "--bare", project_path])
 
-                            # Initialize a bare Git repository
-                            subprocess.run(["git", "init", "--bare", project_path])
+                        # Print repository address on the local network
+                        print(f"Repository address on local network: {user}@{ip_or_hostname}:{project_path}")
 
-                            # Print repository address on the local network
-                            print(f"Repository address on local network: {user}@{ip_or_hostname}:{project_path}")
-
-                            break
-                        else:
-                            print(f"Project folder '{project_name}' already exists in the selected category. Choose a different project name.")
+                        break
                     else:
-                        print("Invalid project name. Please avoid using hyphens.")
+                        print(f"Project folder '{project_name}' already exists in the selected category. Choose a different project name.")
+                else:
+                    print("Invalid project name. Please avoid using hyphens.")
             else:
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
 
-# Function to list repositories in a category
+# Function to list repositories
 def list_repositories():
     """
-    List repositories in a selected category.
+    List repositories in the selected category.
     """
-    while True:
-        print()
-        print("Select a category to list repositories (press 'B' to go back):")
-        list_categories()
-        print()
+    categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
+    if not categories:
+        print("No categories found. Please create a category first.")
+        return
 
-        category_number = input("Enter category number or B: ")
+    print("Select a category to list repositories (press 'B' to go back):")
+    list_categories()
+    print()
 
-        if category_number.lower() == 'b':
-            break  # Go back to the main menu
+    category_number = input("Enter category number: ")
+    if category_number.lower() == "b":
+        return
 
-        if category_number.isdigit():
-            index = int(category_number) - 1
-            categories = [os.path.join(parent_folder, folder_name, category) for category in os.listdir(os.path.join(parent_folder, folder_name))]
-            if 0 <= index < len(categories):
-                selected_category = categories[index]
+    if category_number.isdigit():
+        index = int(category_number) - 1
+        if 0 <= index < len(categories):
+            selected_category = categories[index]
 
-                repositories = [f"{user}@{ip_or_hostname}:{os.path.join(selected_category, repo)}" for repo in os.listdir(selected_category) if repo.endswith('.git')]
+            repositories = [os.path.basename(repo)[:-4] for repo in glob.glob(os.path.join(selected_category, "*.git"))]
+            if not repositories:
+                print("No repositories found in the selected category.")
+                return
 
-                if repositories:
-                    print("Repositories in the selected category:")
-                    for repo in repositories:
-                        print(repo)
+            print("\nRepositories in the selected category:")
+            for i, repository in enumerate(repositories, start=1):
+                print(f"{i}. {repository}")
+
+            while True:
+                repository_number = input("Enter repository number (press 'B' to go back): ")
+                if repository_number.lower() == "b":
+                    break
+
+                if repository_number.isdigit():
+                    repo_index = int(repository_number) - 1
+                    if 0 <= repo_index < len(repositories):
+                        selected_repository = repositories[repo_index]
+                        print("\nOptions for the selected repository:")
+                        print("1. Rename Repository")
+                        print("2. Delete Repository")
+                        print("3. Go Back")
+
+                        option = input("Enter your choice: ")
+                        if option == "1":
+                            rename_repository(os.path.basename(selected_category), selected_repository)
+                        elif option == "2":
+                            delete_repository(os.path.basename(selected_category), selected_repository)
+                        elif option == "3":
+                            break
+                        else:
+                            print("Invalid choice. Please enter a valid option.")
+                    else:
+                        print("Invalid repository number. Please enter a valid number.")
                 else:
-                    print("No repositories found in the selected category.")
-            else:
-                print("Invalid category number. Please enter a valid number.")
+                    print("Invalid input. Please enter a valid number.")
         else:
-            print("Invalid input. Please enter a valid number.")
+            print("Invalid category number. Please enter a valid number.")
+    else:
+        print("Invalid input. Please enter a valid number.")
+
+# Function to rename a repository
+def rename_repository(category, repository_name):
+    new_name = input("Enter the new name for the repository: ")
+    if "-" not in new_name:
+        new_name = new_name.lower().replace(" ", "-")
+        old_path = os.path.join(parent_folder, folder_name, category, f"{repository_name}.git")
+        new_path = os.path.join(parent_folder, folder_name, category, f"{new_name}.git")
+        os.rename(old_path, new_path)
+        print(f"Repository '{repository_name}' has been renamed to '{new_name}' successfully.")
+    else:
+        print("Invalid repository name. Please avoid using hyphens.")
+
+# Function to delete a repository
+def delete_repository(category, repository_name):
+    confirm = input(f"Are you sure you want to delete the repository '{repository_name}'? (Type 'i-am-sure' to confirm): ")
+    if confirm == "i-am-sure":
+        repository_path = os.path.join(parent_folder, folder_name, category, f"{repository_name}.git")
+        shutil.rmtree(repository_path)
+        print(f"Repository '{repository_name}' has been deleted successfully.")
+    else:
+        print("Deletion canceled.")
