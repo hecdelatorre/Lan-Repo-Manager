@@ -1,6 +1,7 @@
 import os
 import subprocess
 import json
+from colorama import Fore, Style
 
 # Initialize global variables with default values
 parent_folder = ""
@@ -67,9 +68,9 @@ def list_categories(show_number=False):
     categories = [os.path.basename(path) for path in os.listdir(os.path.join(parent_folder, folder_name))]
     for i, category in enumerate(categories, start=1):
         if show_number:
-            print(f"{i}. {category}")
+            print(f"{Fore.GREEN}{i}. {category}" + Style.RESET_ALL)
         else:
-            print(category)
+            print(f"{Fore.GREEN}{category}" + Style.RESET_ALL)
     return categories
 
 # Function to create a project folder and initialize a bare Git repository
@@ -128,7 +129,7 @@ def list_repositories():
     """
     List repositories in a selected category.
     """
-    print("Select a category to list repositories (press 'B' to go back):")
+    print(f"{Fore.GREEN}Select a category to list repositories (press 'B' to go back):")
     categories = list_categories(show_number=True)
     print()
 
@@ -142,9 +143,9 @@ def list_repositories():
             selected_category = categories[index]
             repositories = [repo[:-4] for repo in os.listdir(os.path.join(parent_folder, folder_name, selected_category)) if repo.endswith('.git')]
 
-            print("\nRepositories of the selected category:")
+            print(f"\nRepositories of the selected category:")
             for i, repo in enumerate(repositories, start=1):
-                print(f"{i}. {repo} - {user}@{ip_or_hostname}:{os.path.join(parent_folder, folder_name, selected_category, repo)}.git")
+                print(f"{Fore.GREEN}{i}. {repo} - {user}@{ip_or_hostname}:{os.path.join(parent_folder, folder_name, selected_category, repo)}.git" + Style.RESET_ALL)
 
             while True:
                 repo_number = input("Enter repository number (press 'B' to go back): ")
@@ -157,9 +158,9 @@ def list_repositories():
                         selected_repo = repositories[repo_index]
 
                         print(f"\nOptions for the selected repository '{selected_repo}':")
-                        print("1. Rename Repository")
-                        print("2. Delete Repository")
-                        print("3. Go Back")
+                        print(f"{Fore.GREEN}1. Rename Repository")
+                        print(f"2. Delete Repository")
+                        print(f"3. Go Back" + Style.RESET_ALL)
 
                         option = input("Enter your choice: ")
                         if option == "1":
@@ -169,15 +170,15 @@ def list_repositories():
                         elif option == "3":
                             break
                         else:
-                            print("Invalid choice. Please enter a valid option.")
+                            print(f"{Fore.RED}Invalid choice. Please enter a valid option." + Style.RESET_ALL)
                     else:
-                        print("Invalid repository number. Please enter a valid number.")
+                        print(f"{Fore.RED}Invalid repository number. Please enter a valid number." + Style.RESET_ALL)
                 else:
-                    print("Invalid input. Please enter a valid number.")
+                    print(f"{Fore.RED}Invalid input. Please enter a valid number." + Style.RESET_ALL)
         else:
-            print("Invalid category number. Please enter a valid number.")
+            print(f"{Fore.RED}Invalid category number. Please enter a valid number." + Style.RESET_ALL)
     else:
-        print("Invalid input. Please enter a valid number.")
+        print(f"{Fore.RED}Invalid input. Please enter a valid number." + Style.RESET_ALL)
 
 # Function to rename a repository
 def rename_repository(category, old_repo):
