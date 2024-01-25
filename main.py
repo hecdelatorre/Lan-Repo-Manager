@@ -11,7 +11,7 @@ def main():
 
     while True:
         print(f"{Fore.CYAN}Select an option:")
-        print(f"{Fore.GREEN}1. Create Category")
+        print(f"{Fore.BLUE}1. Create Category")
         print("2. Create Repository")
         print("3. List Repositories")
         print("4. List Categories")
