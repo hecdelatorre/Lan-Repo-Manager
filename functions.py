@@ -139,7 +139,7 @@ def list_repositories():
         list_categories()
         print()
 
-        category_number = input("Enter category number: ")
+        category_number = input("Enter category number or B: ")
 
         if category_number.lower() == 'b':
             break  # Go back to the main menu
@@ -162,3 +162,4 @@ def list_repositories():
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
+    print()
