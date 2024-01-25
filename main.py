@@ -10,7 +10,7 @@ def main():
     create_repos_folder()
 
     while True:
-        print(f"{Fore.BLUE}Select an option:")
+        print(f"{Fore.YELLOW}Select an option:")
         print(f"{Fore.GREEN}1. Create Category")
         print("2. Create Repository")
         print("3. List Repositories")
