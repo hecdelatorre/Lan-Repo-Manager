@@ -11,11 +11,11 @@ def main():
 
     while True:
         print(f"{Fore.CYAN}Select an option:")
-        print("1. Create Category")
+        print(f"{Fore.GREEN}1. Create Category")
         print("2. Create Repository")
         print("3. List Repositories")
         print("4. List Categories")
-        print("5. Exit" + Style.RESET_ALL)
+        print(f"5. Exit{Style.RESET_ALL}")
 
         choice = input("Enter your choice: ")
 
@@ -30,7 +30,7 @@ def main():
         elif choice == "5":
             break
         else:
-            print(f"{Fore.RED}Invalid choice. Please enter a valid option." + Style.RESET_ALL)
+            print(f"{Fore.RED}Invalid choice. Please enter a valid option.{Style.RESET_ALL}")
 
 # Execute the main function
 if __name__ == "__main__":
