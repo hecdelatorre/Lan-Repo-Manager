@@ -162,3 +162,4 @@ def list_repositories():
                 print("Invalid category number. Please enter a valid number.")
         else:
             print("Invalid input. Please enter a valid number.")
+    print()
