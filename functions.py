@@ -304,3 +304,35 @@ def delete_category(category):
             print(f"Category '{category}' not found.")
     else:
         print("Deletion aborted.")
+
+def print_usage_examples():
+    """
+    Print usage examples for creating and pushing repositories.
+    """
+    print("Git global setup\n")
+    print("git config --global user.name 'Héctor De La Torre'")
+    print("git config --global user.email 'hector982015@gmail.com'\n")
+    
+    print("Create a new repository\n")
+    print(f"git clone {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print("cd test")
+    print("git switch --create main")
+    print("touch README.md")
+    print("git add README.md")
+    print("git commit -m 'add README'")
+    print("git push --set-upstream origin main\n")
+    
+    print("Push an existing folder\n")
+    print("cd existing_folder")
+    print("git init --initial-branch=main")
+    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print("git add .")
+    print("git commit -m 'Initial commit'")
+    print("git push --set-upstream origin main\n")
+    
+    print("Push an existing Git repository\n")
+    print("cd existing_repo")
+    print("git remote rename origin old-origin")
+    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print("git push --set-upstream origin --all")
+    print("git push --set-upstream origin --tags")

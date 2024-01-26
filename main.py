@@ -1,6 +1,6 @@
 import os
 from colorama import Fore, Style
-from functions import set_variables, create_repos_folder, create_category, create_repository, list_repositories, manage_categories
+from functions import set_variables, create_repos_folder, create_category, create_repository, list_repositories, manage_categories, print_usage_examples
 
 # Clear the terminal screen
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -19,7 +19,8 @@ def main():
         print("2. Create Repository")
         print("3. List Repositories")
         print("4. List Categories")
-        print(f"5. Exit{Style.RESET_ALL}")
+        print("5. Examples")
+        print(f"6. Exit{Style.RESET_ALL}")
 
         choice = input("Enter your choice: ")
 
@@ -32,6 +33,8 @@ def main():
         elif choice == "4":
             manage_categories()
         elif choice == "5":
+            print_usage_examples()
+        elif choice == "6":
             break
         else:
             print(f"{Fore.RED}Invalid choice. Please enter a valid option.{Style.RESET_ALL}")
