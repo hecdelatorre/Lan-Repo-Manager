@@ -12,7 +12,7 @@ def main():
     """
     set_variables()
     create_repos_folder()
-
+    print()
     while True:
         print(f"{Fore.YELLOW}Select an option:")
         print(f"{Fore.CYAN}1. Create Category")
