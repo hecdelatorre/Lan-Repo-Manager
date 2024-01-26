@@ -1,5 +1,9 @@
+import os
 from colorama import Fore, Style
-from functions import set_variables, create_repos_folder, create_category, list_categories, create_repository, list_repositories, manage_categories
+from functions import set_variables, create_repos_folder, create_category, create_repository, list_repositories, manage_categories
+
+# Clear the terminal screen
+os.system('cls' if os.name == 'nt' else 'clear')
 
 # Main function to orchestrate the process
 def main():
