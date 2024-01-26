@@ -34,10 +34,10 @@ def set_variables():
     user = env_variables.get("USER", "")
     folder_name = env_variables.get("FOLDER_NAME", "")
 
-# Function to create the 'Repos' folder if it doesn't exist
+# Function to create the '{folder_name}' folder if it doesn't exist
 def create_repos_folder():
     """
-    Create the 'Repos' folder if it doesn't exist.
+    Create the '{folder_name}' folder if it doesn't exist.
     """
     if not os.path.exists(os.path.join(parent_folder, folder_name)):
         os.makedirs(os.path.join(parent_folder, folder_name))
@@ -121,7 +121,7 @@ def create_repository():
                         subprocess.run(["git", "init", "--bare", project_path])
 
                         # Print repository address on the local network
-                        print(f"Repository address on local network: {user}@{ip_or_hostname}:{project_path}")
+                        print(f"{folder_name}itory address on local network: {user}@{ip_or_hostname}:{project_path}")
 
                         break
                     else:
@@ -152,7 +152,7 @@ def list_repositories():
             selected_category = categories[index]
             repositories = [repo[:-4] for repo in os.listdir(os.path.join(parent_folder, folder_name, selected_category)) if repo.endswith('.git')]
 
-            print(f"\nRepositories of the selected category:")
+            print(f"\n{folder_name}itories of the selected category:")
             for i, repo in enumerate(repositories, start=1):
                 print(f"{Fore.GREEN}{i}. {repo} - {user}@{ip_or_hostname}:{os.path.join(parent_folder, folder_name, selected_category, repo)}.git" + Style.RESET_ALL)
 
@@ -167,8 +167,8 @@ def list_repositories():
                         selected_repo = repositories[repo_index]
 
                         print(f"\nOptions for the selected repository '{selected_repo}':")
-                        print(f"{Fore.GREEN}1. Rename Repository")
-                        print(f"2. Delete Repository")
+                        print(f"{Fore.GREEN}1. Rename {folder_name}itory")
+                        print(f"2. Delete {folder_name}itory")
                         print(f"3. Go Back" + Style.RESET_ALL)
 
                         option = input("Enter your choice: ")
@@ -194,7 +194,7 @@ def rename_repository(category, old_repo):
     """
     Rename a repository based on user input.
     """
-    print(f"Rename Repository '{old_repo}':")
+    print(f"Rename {folder_name}itory '{old_repo}':")
     new_repo = input("Enter the new name for the repository: ")
 
     if "-" not in new_repo:
@@ -204,9 +204,9 @@ def rename_repository(category, old_repo):
 
         if os.path.exists(old_path):
             os.rename(old_path, new_path)
-            print(f"Repository '{old_repo}' has been renamed to '{new_repo}' successfully.")
+            print(f"{folder_name}itory '{old_repo}' has been renamed to '{new_repo}' successfully.")
         else:
-            print(f"Repository '{old_repo}' not found.")
+            print(f"{folder_name}itory '{old_repo}' not found.")
     else:
         print("Invalid repository name. Please avoid using hyphens.")
 
@@ -215,7 +215,7 @@ def delete_repository(category, repository):
     """
     Delete a repository based on user input.
     """
-    print(f"Delete Repository '{repository}':")
+    print(f"Delete {folder_name}itory '{repository}':")
     confirmation = input(f"Type 'i-am-sure' to delete the repository '{repository}' along with its folder: ")
 
     if confirmation.lower() == "i-am-sure":
@@ -223,9 +223,9 @@ def delete_repository(category, repository):
         if os.path.exists(repository_path):
             import shutil
             shutil.rmtree(repository_path)
-            print(f"Repository '{repository}' has been deleted successfully.")
+            print(f"{folder_name}itory '{repository}' has been deleted successfully.")
         else:
-            print(f"Repository '{repository}' not found.")
+            print(f"{folder_name}itory '{repository}' not found.")
     else:
         print("Deletion aborted.")
 
@@ -309,12 +309,12 @@ def print_usage_examples():
     """
     Print usage examples for creating and pushing repositories.
     """
-    print("Git global setup\n")
-    print("git config --global user.name 'Héctor De La Torre'")
-    print("git config --global user.email 'hector982015@gmail.com'\n")
+    print("\nGit global setup\n")
+    print(f"git config --global user.name '{user}'")
+    print(f"git config --global user.email '{user}@example.com'\n")
     
     print("Create a new repository\n")
-    print(f"git clone {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print(f"git clone {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
     print("cd test")
     print("git switch --create main")
     print("touch README.md")
@@ -325,7 +325,7 @@ def print_usage_examples():
     print("Push an existing folder\n")
     print("cd existing_folder")
     print("git init --initial-branch=main")
-    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
     print("git add .")
     print("git commit -m 'Initial commit'")
     print("git push --set-upstream origin main\n")
@@ -333,6 +333,6 @@ def print_usage_examples():
     print("Push an existing Git repository\n")
     print("cd existing_repo")
     print("git remote rename origin old-origin")
-    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/Repos/test/test.git")
+    print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
     print("git push --set-upstream origin --all")
-    print("git push --set-upstream origin --tags")
+    print("git push --set-upstream origin --tags\n")
