@@ -97,7 +97,7 @@ def create_repository():
     print()
 
     while True:
-        category_number = input("Enter category number or B: ")
+        category_number = input("Enter category number: ")
 
         if category_number.isdigit():
             index = int(category_number) - 1

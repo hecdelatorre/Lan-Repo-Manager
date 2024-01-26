@@ -1,84 +1,102 @@
 # LAN Repo Manager
 
-LAN Repo Manager is a Python-based tool that simplifies the management of repositories on a local area network (LAN). It provides an easy-to-use interface to create project categories, repositories, list repositories, and manage categories.
+LAN Repo Manager is a command-line tool designed to help manage repositories and categories within a local area network (LAN).
 
 ## Prerequisites
 
-- Python 3.x
-- `.repo_variables.json` file in the user's home directory (e.g., `~/.repo_variables.json`). The file should be structured as follows:
+- Python 3.x installed on your system
+- `repo_variables.json` file located in your home directory (`~/`)
 
-```json
-{
-  PARENT_FOLDER: /path/to/parent/folder,
-  IP_OR_HOSTNAME: server_hostname.local,
-  USER: your_username,
-  FOLDER_NAME: repos
-}
-```
+## Setting Up Environment
 
-**Note**: Ensure that the `.repo_variables.json` file is located in the home directory.
+1. **Environment Variables:**
+   
+   - Ensure that the `repo_variables.json` file is located in your home directory (`~/`). This file contains configuration variables used by the program.
 
-## Installation
+2. **Python Virtual Environment:**
+   
+   - Create a Python virtual environment to isolate dependencies:
+     
+     ```bash
+     python3 -m venv env
+     ```
+   - Activate the virtual environment:
+     
+     ```bash
+     . env/bin/activate
+     ```
 
-Install the required dependencies using the following command:
+## Installing Dependencies
+
+Install the required dependencies using pip:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-To generate a standalone executable, install PyInstaller:
+## Building Executable
 
-```bash
-pip install pyinstaller
-```
-
-Build the executable:
+To build the executable file using PyInstaller, run the following command:
 
 ```bash
 pyinstaller --onefile -n lan-repo-manager main.py
 ```
 
-## Usage
+## SSH Public Key Setup
 
-1. Fill in the `.repo_variables.json` file in your home directory with the appropriate values.
-
-2. Run the main program:
+To add your SSH public key to the server computer in the LAN network, use the following command:
 
 ```bash
-./lan-repo-manager
+cat .ssh/id.pub | ssh <username>@<hostname> 'cat >> ~/.ssh/authorized_keys'
 ```
 
-3. Follow the on-screen instructions to create categories, repositories, list repositories, and manage categories.
+Replace `<username>` and `<hostname>` with your actual username and hostname.
 
-## SSH Key Setup
+## Git Configuration
 
-To enable secure communication with the server, make sure you have an SSH key pair. If not, generate one using the following command:
-
-```bash
-ssh-keygen -t rsa -b 2048
-```
-
-Follow the prompts to generate the key pair. Once generated, copy the public key (`~/.ssh/id_rsa.pub`) and send it to the server administrator for authentication.
-
-Add the public key to the server's authorized keys:
-
-```bash
-cat ~/.ssh/id_rsa.pub | ssh your_username@server_hostname.local 'cat >> ~/.ssh/authorized_keys'
-```
-
-**Note**: Replace `your_username` and `server_hostname.local` with your actual username and server hostname.
-
-## Setting Default Branch
-
-On the server machine, set the default branch name to `main` for new repositories:
+On the server machine, set the default branch name to `main` using the following Git command:
 
 ```bash
 git config --global init.defaultBranch main
 ```
 
-## Important Notes
+## Usage Examples
 
-- ``Ensure that the `.repo_variables.json` file is correctly filled in with the appropriate values.
-- The program manages repositories in the specified parent folder on the server, allowing users to organize and version control their projects easily.
+### Git Global Setup
 
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
+```bash
+git config --global user.name 'Your Name' 
+git config --global user.email 'your.email@example.com'
+```
+
+### Create a New Repository
+
+```bash
+git clone <username>@<hostname>:<parent_folder>/<folder_name>/test/test.git cd test git switch --create main touch README.md 
+git add README.md git commit -m 'add README' 
+git push --set-upstream origin main
+```
+### Push an Existing Folder
+
+```bash
+cd existing_folder 
+git init --initial-branch=main 
+git remote add origin <username>@<hostname>:<parent_folder>/<folder_name>/test/test.git 
+git add . 
+git commit -m 'Initial commit' 
+git push --set-upstream origin main
+```
+
+### Push an Existing Git Repository
+
+```bash
+cd existing_repo 
+git remote rename origin old-origin 
+git remote add origin <username>@<hostname>:<parent_folder>/<folder_name>/test/test.git 
+git push --set-upstream origin --all 
+git push --set-upstream origin --tags
+```
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
