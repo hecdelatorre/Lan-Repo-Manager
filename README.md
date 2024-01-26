@@ -5,13 +5,24 @@ LAN Repo Manager is a command-line tool designed to help manage repositories and
 ## Prerequisites
 
 - Python 3.x installed on your system
-- `repo_variables.json` file located in your home directory (`~/`)
+- `.repo_variables.json` file located in your home directory (`~/`)
 
 ## Setting Up Environment
 
 1. **Environment Variables:**
    
-   - Ensure that the `repo_variables.json` file is located in your home directory (`~/`). This file contains configuration variables used by the program.
+   - Ensure that the `.repo_variables.json` file is located in your home directory (`~/`). This file contains configuration variables used by the program.
+   
+   - Example of `.repo_variables.json`
+     
+     ```json
+     {
+         PARENT_FOLDER: /path/to/parent/folder,
+         IP_OR_HOSTNAME: server_hostname.local,
+         USER: your_username,
+         FOLDER_NAME: repos
+     }
+     ```
 
 2. **Python Virtual Environment:**
    
@@ -20,6 +31,7 @@ LAN Repo Manager is a command-line tool designed to help manage repositories and
      ```bash
      python3 -m venv env
      ```
+   
    - Activate the virtual environment:
      
      ```bash
@@ -77,6 +89,7 @@ git clone <username>@<hostname>:<parent_folder>/<folder_name>/test/test.git cd t
 git add README.md git commit -m 'add README' 
 git push --set-upstream origin main
 ```
+
 ### Push an Existing Folder
 
 ```bash
