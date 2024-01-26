@@ -309,11 +309,11 @@ def print_usage_examples():
     """
     Print usage examples for creating and pushing repositories.
     """
-    print("\nGit global setup\n")
+    print(f"\n{Style.BRIGHT}Git global setup\n{Style.RESET_ALL}")
     print(f"git config --global user.name '{user}'")
     print(f"git config --global user.email '{user}@example.com'\n")
     
-    print("Create a new repository\n")
+    print(f"{Style.BRIGHT}Create a new repository\n{Style.RESET_ALL}")
     print(f"git clone {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
     print("cd test")
     print("git switch --create main")
@@ -322,7 +322,7 @@ def print_usage_examples():
     print("git commit -m 'add README'")
     print("git push --set-upstream origin main\n")
     
-    print("Push an existing folder\n")
+    print(f"{Style.BRIGHT}Push an existing folder\n{Style.RESET_ALL}")
     print("cd existing_folder")
     print("git init --initial-branch=main")
     print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
@@ -330,7 +330,7 @@ def print_usage_examples():
     print("git commit -m 'Initial commit'")
     print("git push --set-upstream origin main\n")
     
-    print("Push an existing Git repository\n")
+    print(f"{Style.BRIGHT}Push an existing Git repository\n{Style.RESET_ALL}")
     print("cd existing_repo")
     print("git remote rename origin old-origin")
     print(f"git remote add origin {user}@{ip_or_hostname}:{parent_folder}/{folder_name}/test/test.git")
