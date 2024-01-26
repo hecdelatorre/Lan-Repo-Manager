@@ -39,6 +39,7 @@ pip install -r requirements.txt
 To build the executable file using PyInstaller, run the following command:
 
 ```bash
+pip install pyinstaller
 pyinstaller --onefile -n lan-repo-manager main.py
 ```
 
