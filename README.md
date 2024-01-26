@@ -5,7 +5,7 @@ LAN Repo Manager is a Python-based tool that simplifies the management of reposi
 ## Prerequisites
 
 - Python 3.x
-- `repo_variables.json` file in the user's home directory (e.g., `~/repo_variables.json`). The file should be structured as follows:
+- `.repo_variables.json` file in the user's home directory (e.g., `~/.repo_variables.json`). The file should be structured as follows:
 
 ```json
 {
@@ -16,7 +16,7 @@ LAN Repo Manager is a Python-based tool that simplifies the management of reposi
 }
 ```
 
-**Note**: Ensure that the `repo_variables.json` file is located in the home directory.
+**Note**: Ensure that the `.repo_variables.json` file is located in the home directory.
 
 ## Installation
 
@@ -40,7 +40,7 @@ pyinstaller --onefile -n lan-repo-manager main.py
 
 ## Usage
 
-1. Fill in the `repo_variables.json` file in your home directory with the appropriate values.
+1. Fill in the `.repo_variables.json` file in your home directory with the appropriate values.
 
 2. Run the main program:
 
@@ -78,7 +78,7 @@ git config --global init.defaultBranch main
 
 ## Important Notes
 
-- ``Ensure that the `repo_variables.json` file is correctly filled in with the appropriate values.
+- ``Ensure that the `.repo_variables.json` file is correctly filled in with the appropriate values.
 - The program manages repositories in the specified parent folder on the server, allowing users to organize and version control their projects easily.
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
