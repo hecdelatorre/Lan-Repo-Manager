@@ -18,7 +18,7 @@ def set_variables():
 
     # Locate the 'repo_variables.json' file in the user's home directory
     home_directory = os.path.expanduser("~")
-    json_file_path = os.path.join(home_directory, "repo_variables.json")
+    json_file_path = os.path.join(home_directory, ".repo_variables.json")
 
     # Check if the file exists
     if not os.path.exists(json_file_path):
